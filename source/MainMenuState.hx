@@ -22,7 +22,6 @@ import editors.MasterEditorMenu;
 import flixel.input.keyboard.FlxKey;
 import flixel.addons.display.FlxBackdrop;
 
-import touchInput;
 using StringTools;
 
 class MainMenuState extends MusicBeatState
@@ -280,7 +279,7 @@ class MainMenuState extends MusicBeatState
 			}
 
 			menuItems.forEach(function(spr:FlxSprite){
-				if(touchInput.simpleTouch(spr)){
+				if(TouchInput.simpleTouch(spr)){
 					curSelected = spr.ID;
 					changeItem(spr.ID);
 					selectThing();
