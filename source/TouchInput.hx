@@ -24,7 +24,7 @@ class TouchInput
 		return touchOrder;
 	}
 
-	public static function simpleTouch(thing:Dynamic):String
+	public static function simpleTouch(thing:Dynamic):Bool
 	{
 		for (touch in FlxG.touches.list){
 			if (touch.overlaps(thing) && touch.justPressed)
