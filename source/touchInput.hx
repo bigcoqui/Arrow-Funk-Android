@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxBasic;
 import flixel.FlxG;
 
-class TouchInput
+class touchInput
 {
 	public static var prevTouched:Int = 1;
 
