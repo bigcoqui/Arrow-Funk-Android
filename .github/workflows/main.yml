@@ -6,9 +6,9 @@ name: Android Build
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ notweuz-main ]
+    branches: [ main ]
   pull_request:
-    branches: [ notweuz-main ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -32,13 +32,14 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@main
         with:
-          java-version: 11
+          distribution: 'zulu'
+          java-version: '11'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@main
 
       - name: Setup Haxe
-        uses: krdlab/setup-haxe@main
+        uses: krdlab/setup-haxe@master
         with:
           haxe-version: 4.2.5
 
@@ -47,14 +48,13 @@ jobs:
           haxelib --quiet setup /home/runner/haxelib
           haxelib --quiet install hxcpp > /dev/null
           haxelib --quiet install lime 7.9.0
-          haxelib --quiet install openfl 9.1.0
-          haxelib --quiet --never install flixel 4.11.0
+          haxelib git openfl https://github.com/MateuzinhoX02/openfl-optimized/
+          haxelib --quiet install flixel 4.11.0
           haxelib --quiet run lime setup flixel
           haxelib --quiet install flixel-tools
           haxelib --quiet install flixel-ui
           haxelib --quiet install hscript
-          haxelib --quiet install flixel-addons
-          haxelib git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd
+          haxelib --quiet install flixel-addons 2.11.0
           haxelib git linc_luajit https://github.com/Sirox228/linc_luajit
           haxelib list
 
@@ -69,8 +69,8 @@ jobs:
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
           haxelib set lime 7.9.0 -y
-          haxelib set openfl 9.1.0 -y
           haxelib set flixel 4.11.0 -y
+          haxelib set flixel-addons 2.11.0 -y
           haxelib list
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
@@ -81,5 +81,5 @@ jobs:
       - name: Publish Artifact
         uses: actions/upload-artifact@main
         with:
-          name: Arrow Funk Android Build
+          name: Arrow-Funk Android
           path: export/release/android/bin/app/build/outputs/apk/debug
