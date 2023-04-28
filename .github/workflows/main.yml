@@ -33,7 +33,7 @@ jobs:
         uses: actions/setup-java@main
         with:
           distribution: 'zulu'
-          java-version: '11'
+          java-version: 11
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@main
@@ -41,20 +41,21 @@ jobs:
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: 4.3.0
 
       - name: Install Haxelib
         run: |
           haxelib --quiet setup /home/runner/haxelib
-          haxelib --quiet install hxcpp > /dev/null
+          haxelib --quiet install hxcpp
           haxelib --quiet install lime 7.9.0
-          haxelib git openfl https://github.com/MateuzinhoX02/openfl-optimized/
-          haxelib --quiet install flixel 4.11.0
+          haxelib --quiet install openfl 9.1.0
+          haxelib --quiet --never install flixel 4.11.0
           haxelib --quiet run lime setup flixel
           haxelib --quiet install flixel-tools
           haxelib --quiet install flixel-ui
           haxelib --quiet install hscript
-          haxelib --quiet install flixel-addons 2.11.0
+          haxelib --quiet install flixel-addons 3.0.2
+          haxelib git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
           haxelib git linc_luajit https://github.com/Sirox228/linc_luajit
           haxelib list
 
@@ -68,9 +69,10 @@ jobs:
           haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
-          haxelib set lime 7.9.0 -y
-          haxelib set flixel 4.11.0 -y
-          haxelib set flixel-addons 2.11.0 -y
+          haxelib set lime 7.9.0
+          haxelib set openfl 9.1.0
+          haxelib set flixel 4.11.0
+          haxelib set flixel-addons 3.0.2
           haxelib list
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
@@ -81,5 +83,5 @@ jobs:
       - name: Publish Artifact
         uses: actions/upload-artifact@main
         with:
-          name: Arrow-Funk Android
+          name: PE Android Build
           path: export/release/android/bin/app/build/outputs/apk/debug
